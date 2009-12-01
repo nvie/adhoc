@@ -83,7 +83,8 @@ def updateProgress():
 	flushPrint("▣")
 	
 def usage():
-	print "Usage: ./adhoc/package [-s|--silent] [ConfigurationName]"	
+	print "Usage: ./adhoc/package [-s|--silent] [-b|--build-dir <build-dir>]"
+	print "                       [ConfigurationName]"	
 	
 #
 # Batch
@@ -96,15 +97,18 @@ def usage():
 import getopt, sys
 
 try:
-	opts, args = getopt.getopt(sys.argv[1:], "s", ["silent"])
+	opts, args = getopt.getopt(sys.argv[1:], "sb:", ["silent", "build-dir="])
 except getopt.GetoptError, err:
 	print str(err)
 	usage()
 	sys.exit(2)
 silent=False
+build_dir="build"	# "build" is the default Xcode location for builds
 for o, a in opts:
 	if o in ("-s", "--silent"):
 		silent = True
+	elif o in ("-b", "--build-dir"):
+		build_dir = a
 	else:
 		assert False, "unhandled option"
 
@@ -160,8 +164,8 @@ else:
 # Preliminary sanity checks
 #	
 	
-appPath = "build/%s-iphoneos/%s.app" % (configurationName, projectName)
-dSYMPath = "build/%s-iphoneos/%s.app.dSYM" % (configurationName, projectName)
+appPath = "%s/%s-iphoneos/%s.app" % (build_dir, configurationName, projectName)
+dSYMPath = "%s/%s-iphoneos/%s.app.dSYM" % (build_dir, configurationName, projectName)
 
 if not os.path.exists(appPath):
 	print "Error: Could not find your app at %s." % appPath
