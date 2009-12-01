@@ -272,7 +272,7 @@ updateProgress()
 provisioningProfileUUIDRegEx = re.compile('(?s)/\* %s \*/ = {[^}]*?PROVISIONING_PROFILE.*? = "(.*?)";' % configurationName)
 provisioningProfileUUIDList = dedup(filter(lambda pp: pp != '', re.findall(provisioningProfileUUIDRegEx, pbxproj)))
 
-numProvisioningProfileUUIDs = len(provisioningProfileUUIDList);
+numProvisioningProfileUUIDs = len(provisioningProfileUUIDList)
 if numProvisioningProfileUUIDs == 0:
 	print "Error: Could not find the Unique ID for provisioning profile for configuration %s in project %s." % (configurationName, pbxprojFileName)
 	if numArgs == 1:
