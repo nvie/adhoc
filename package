@@ -22,6 +22,16 @@ version = "1.0"
 # The exit status for success in Unix system utilities is zero.
 SUCCESS = 0
 
+# 
+# Removes all duplicate elements from a list and returns a new
+# list with potential loss of relative element ordering.
+# 
+def dedup(list):
+  d = {}
+  for x in list:
+    d[x] = 0
+  return d.keys()
+
 #
 # ASCII Art baby. Old school command-line eye-candy :)  
 # (Yes, so I apparently have too much time on my hands.)
@@ -260,7 +270,7 @@ pbxproj = open(pbxprojFileName).read()
 updateProgress()
 
 provisioningProfileUUIDRegEx = re.compile('(?s)/\* %s \*/ = {[^}]*?PROVISIONING_PROFILE.*? = "(.*?)";' % configurationName)
-provisioningProfileUUIDList = re.findall(provisioningProfileUUIDRegEx, pbxproj)
+provisioningProfileUUIDList = dedup(filter(lambda pp: pp != '', re.findall(provisioningProfileUUIDRegEx, pbxproj)))
 
 numProvisioningProfileUUIDs = len(provisioningProfileUUIDList);
 if numProvisioningProfileUUIDs == 0:
